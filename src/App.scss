@@ -1,0 +1,304 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@mixin flexbox($jc: center, $al: center, $fd: row) {
+  display: flex;
+  justify-content: $jc;
+  align-items: $al;
+  flex-direction: $fd;
+}
+
+
+
+div.container {
+  width: 100%;
+  min-height: 100vh;
+  @include flexbox(center, center, column);
+
+  div.card {
+    width: 80%;
+    height: auto;
+    border-radius: 16px;
+    margin: 5rem auto;
+    padding: 2rem 3rem;
+    background: #010449;
+  }
+
+  div.formHeading {
+    justify-self: flex-start;
+    flex-grow: 1;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #cccccc80;
+  }
+
+}
+
+
+div.contentBody {
+  @include flexbox(flex-start, flex-start, row);
+
+
+  div.label {
+    @include flexbox(space-between, center, column);
+    gap: 2rem;
+    position: relative;
+    overflow: hidden;
+    margin-top: 1rem;
+    z-index: 3;
+
+    div.labelContainer {
+      @include flexbox(space-between, center, row);
+      text-transform: capitalize;
+
+      div.labelText {
+        >div:nth-of-type(1) {
+          font-weight: 600;
+          font-size: 1.2rem;
+          width: 8rem;
+        }
+
+        >div:nth-of-type(2) {
+          font-size: 0.9rem;
+          width: 9rem;
+        }
+      }
+
+      div.labelIcon {
+        height: 2.5rem;
+        width: 2.5rem;
+        border-radius: 50%;
+        background: #3d3c3c;
+        z-index: 3;
+        @include flexbox(center, center, row);
+
+        svg {
+          width: 1.1rem;
+          height: 1.1rem;
+        }
+      }
+      div.labelIcon.active{
+        background: #5b9bbf;
+      }
+
+    }
+
+    div.line {
+      position: absolute;
+      width: 1px;
+      height: 20rem;
+      background-color: rgba(145, 145, 145, 0.295);
+      right: 1.2rem;
+      top: 3.5rem;
+      z-index: 1;
+    }
+  }
+
+  div.stepper {
+    position: relative;
+    margin-left: 4rem;
+
+    div.line {
+      width: 1px;
+      height: 29rem;
+      background-color: rgba(145, 145, 145, 0.295);
+
+    }
+
+    div.dot {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #010449;
+      border: 1px solid #5b9bbf;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+        div.dot.active-dot {
+          background: #5b9bbf;
+        }
+    
+        div.lineGrow.active-lineGrow {
+          background: #5b9bbf;
+        }
+    div.lineGrow {
+      height: 3rem;
+      position: absolute;
+    }
+
+    div.line-1 {
+      width: 1px;
+      // background-color: lightsalmon;
+      top: 0;
+      height: 3rem;
+    }
+
+    div.line-2 {
+      width: 1px;
+      // background-color: goldenrod;
+      top: 2.75rem;
+      height: 6rem;
+    }
+
+
+
+    div.line-3 {
+      width: 1px;
+      // background-color: greenyellow;
+      top: 9rem;
+      height: 5rem;
+    }
+    div.line-4 {
+      width: 1px;
+      // background-color: hotpink;
+      top: 14.7rem;
+      height: 5rem;
+    }
+    div.line-5{
+      width: 1px;
+      // background-color: red;
+      top: 20.3rem;
+      height: 5rem;
+    }
+    div.line-6 {
+      width: 1px;
+      // background-color: greenyellow;
+      top: 26rem;
+      height: 3rem;
+      z-index: 3;
+    }
+
+    div.dot-1 {
+      top: 2.75rem;
+    }
+
+    div.dot-2 {
+      top: 8.5rem;
+    }
+
+    div.dot-3 {
+      top: 14rem;
+    }
+
+    div.dot-4 {
+      top: 19.6rem;
+    }
+
+    div.dot-5 {
+      top: 25.2rem;
+    }
+
+
+  }
+
+}
+
+
+div.form {
+  margin: 1rem 3rem;
+  width: 60%;
+
+  div.introText {
+    border-bottom: 0.1px solid #cccccc41;
+    padding-bottom: 4rem;
+    width: 100%;
+
+    div {
+      font-size: 0.8rem;
+    }
+
+    h3 {
+      margin: .5rem 0;
+    }
+  }
+
+  form {
+    margin-top: 3rem;
+    width: 100%;
+    @include flexbox(center, center, column);
+
+    div.inputContainer {
+      width: 100%;
+      // display: none;
+
+      div.inputBox {
+        position: relative;
+        width: 100%;
+    
+        input {
+          width: 100%;
+          padding: 20px 10px;
+          border: 1px solid #21c79d;
+          background: #010449;
+          border-radius: 10px;
+          color: #fff;
+          // height: 3.5rem;
+        }
+
+
+        span {
+          position: absolute;
+          padding: 10px;
+          left: 0;
+          pointer-events: none;
+          text-transform: uppercase;
+          font-size: 1.5rem;
+        }
+
+      }
+
+      
+    }
+
+    div.inputContainer.inactive {
+      display: none;
+    }
+
+    div.inputBox input:valid~span,
+    div.inputBox input:focus~span {
+      transition: all 0.3s ease-in-out;
+
+      color: #21c79d;
+      transform: translate(10px, -10px);
+      font-size: smaller;
+      padding: 0 10px;
+      background: #010449;
+    }
+  }
+
+  button {
+    width: 8rem;
+    height: 3rem;
+    border-radius: 25px;
+    align-self: flex-end;
+    margin-top: 2rem;
+    cursor: pointer;
+    background: #21c79d;
+    transition: transform 0.3s ease-in-out;
+   color: #111111;
+   font-weight: 600;
+    &:hover {
+      transform: scale(1.1);
+    }
+    &:disabled{
+      background: #111111;
+      color: #21c79d;
+      text-decoration:line-through;
+    }
+  }
+}
+
+
+h1.successful{
+  display: flex;
+  margin-top: 4rem;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  align-self: center;
+  color: red;
+}
