@@ -180,7 +180,7 @@ function App() {
                         }}
                         onBlur={validateForm}
                         value={inputValue}
-                        required
+                        autoComplete="off"
                       />
                       <span> {el.labelText}</span>
                     </div>
