@@ -49,6 +49,7 @@ function App() {
     }
     setInputValue("");
     setNameHelperText(nameHelperText);
+    validateForm();
   };
 
   // This is where the validation happens, test the input by supplying text less than 2 or a number where a text is required.
@@ -56,14 +57,11 @@ function App() {
     const inputTag = document.getElementsByTagName("input")[currVal];
     const helperText = document.getElementById("helperText") as HTMLDivElement;
 
-    const regex = /^[a-zA-Z'-]+$/;
     console.log(inputTag);
 
     if (inputTag.id === `name-id-${currVal}`) {
-      inputValue?.length < 2 || regex.test(inputValue)
-        ? (setNameHelperText(
-            "Name is Too Short and cannot contain special characters"
-          ),
+      inputValue?.length < 2
+        ? (setNameHelperText("Name is Too Short "),
           (inputTag.style.border = "1px solid red"),
           (helperText.style.color = "red"))
         : (setDisabled(false), setNameHelperText(nameHelperText));
