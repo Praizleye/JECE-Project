@@ -60,20 +60,21 @@ function App() {
     console.log(inputTag);
 
     if (inputTag.id === `name-id-${currVal}`) {
-      inputValue?.length < 2 || inputValue === "" || !regex.test(inputValue)
+      inputValue?.length < 2 || regex.test(inputValue)
         ? (setNameHelperText(
             "Name is Too Short and cannot contain special characters"
           ),
           (inputTag.style.border = "1px solid red"),
           (helperText.style.color = "red"))
-        : (setDisabled(!disabled), setNameHelperText(nameHelperText));
+        : (setDisabled(false), setNameHelperText(nameHelperText));
     }
 
     if (inputTag.id === `city-id-${currVal}`) {
-      inputValue?.length < 2 || inputValue === ""
+      inputValue?.length < 2
         ? (setNameHelperText("city doesnt exist"),
           (inputTag.style.border = "1px solid red"),
-          (helperText.style.color = "red"))
+          (helperText.style.color = "red"),
+          setDisabled(true))
         : (setDisabled(false), setNameHelperText(nameHelperText));
     }
   };
