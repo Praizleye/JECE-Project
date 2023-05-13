@@ -4,26 +4,32 @@ import { labelArr } from "./labelArr";
 import { formArr } from "./formArr";
 
 function App() {
+  // tracks the form this is what tells the stepper the item that is active and assigns the needed styles
   const [currVal, setCurrVal] = useState(0);
 
+  // Helper text to tell the user what went wrong
   const [nameHelperText, setNameHelperText] = useState(
     "Please fill in the details below"
   );
+
+  // the button is disabled onBlur if input is not valid
   const [disabled, setDisabled] = useState(true);
 
-  // Getting the refs
+  // this is what checks the input for the value that is being typed
+  const [inputValue, setInputValue] = useState("");
+
+  // Getting the refs of all the required item for validation. forget the long code in the angle brackets typescript just needed this to breathe. REFs are the most preferred way to manipulate the dom in react since react uses the virtual DOM.
   const inputBoxRef = useRef<Array<HTMLDivElement | null>>(
     new Array(formArr.length).fill(null)
   );
   const iconRef = useRef<Array<HTMLDivElement | null>>(
     new Array(formArr.length).fill(null)
   );
-  // const inputRef = useRef<Array<HTMLDivElement | null>>(
-  //   new Array(formArr.length).fill(null)
-  // );
+
   const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
   const lineGrowRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  // the useEffect ensures that my code is rerun eact time currVal is changed
   useEffect(() => {
     // console.log(iconRef);
     // console.log(inputBoxRef.current);
@@ -33,8 +39,7 @@ function App() {
     lineGrowRefs.current[currVal]?.classList.add("active-lineGrow");
   }, [currVal]);
 
-  const [inputValue, setInputValue] = useState("");
-
+  // This is the next Step button nothing serious going on here
   const nextStepClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setCurrVal((prev) => prev + 1);
@@ -46,6 +51,7 @@ function App() {
     setNameHelperText(nameHelperText);
   };
 
+  // This is where the validation happens, test the input by supplying text less than 2 or a number where a text is required.
   const validateForm = () => {
     const inputTag = document.getElementsByTagName("input")[currVal];
     const helperText = document.getElementById("helperText") as HTMLDivElement;
