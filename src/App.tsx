@@ -155,7 +155,7 @@ function App() {
             <div className="introText">
               <div className="step">
                 {" "}
-                {`Step ${currVal + 1}/${formArr.length}  `}
+                {`Step ${currVal + 1}/${formArr.length + 1}  `}
               </div>
               <h3> Let's start with your name</h3>
               <div id="helperText">{nameHelperText}</div>
