@@ -49,7 +49,7 @@ function App() {
     }
     setInputValue("");
     setNameHelperText(nameHelperText);
-    validateForm();
+    // validateForm();
   };
 
   // This is where the validation happens, test the input by supplying text less than 2 or a number where a text is required.
@@ -178,6 +178,7 @@ function App() {
                         onChange={(event) => {
                           setInputValue(event.target.value);
                         }}
+                        onFocus={validateForm}
                         onBlur={validateForm}
                         value={inputValue}
                         autoComplete="off"
@@ -191,7 +192,7 @@ function App() {
                 </button>
               </form>
             ) : (
-              <h1 className="successful"> It pays to Serve Jesus</h1>
+              <h1 className="successful"> It PAYS $$$ to Serve Jesus</h1>
             )}
           </div>
         </div>
