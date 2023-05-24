@@ -29,10 +29,14 @@ function App() {
   const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
   const lineGrowRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  const loginRef = useRef<HTMLDivElement | null>(null);
+
   // the useEffect ensures that my code is rerun eact time currVal is changed
   useEffect(() => {
     // console.log(iconRef);
     // console.log(inputBoxRef.current);
+
     inputBoxRef.current[currVal]?.classList.remove("inactive");
     iconRef.current[currVal]?.classList.add("active");
     dotRefs.current[currVal]?.classList.add("active-dot");
@@ -93,9 +97,32 @@ function App() {
     }
   };
 
+  const [pwd, setPwd] = useState("");
+
+  const entryValidator = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (pwd === "123456") {
+      if (cardRef.current && loginRef.current) {
+        cardRef.current.classList.remove("card-inactive");
+        loginRef.current.classList.add("login-inactive");
+      }
+    }
+  };
+
   return (
     <div className="container">
-      <div className="card">
+      <div className="login" ref={loginRef}>
+        <div>Enter Your Password Here</div>
+        <input
+          type="text"
+          name="password"
+          id="password"
+          value={pwd}
+          onChange={(e) => setPwd(e.target.value)}
+        />
+        <button onClick={entryValidator}>Submit</button>
+      </div>
+      <div className="card card-inactive" ref={cardRef}>
         <div className="formHeading">
           <h3>My Skill Level</h3>
           <span>Answer the following questions to begin your plan</span>
