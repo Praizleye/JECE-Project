@@ -4,6 +4,38 @@
   box-sizing: border-box;
 }
 
+div.login {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 20rem;
+  padding: 4rem;
+  background: #010449;
+}
+div.login input {
+  height: 3rem;
+  border-radius: 8px;
+  padding: 20px 10px;
+  border: 1px solid #21c79d;
+  background: #010449;
+  border-radius: 10px;
+  color: #fff;
+}
+div.login button {
+  width: 7rem;
+  display: block;
+  margin-top: 2rem;
+  height: 3rem;
+  border-radius: 12px;
+}
+
+div.login-inactive {
+  transform: scale(0);
+  opacity: 0;
+  display: none;
+}
+
 div.container {
   width: 100%;
   min-height: 100vh;
@@ -11,6 +43,11 @@ div.container {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+div.container div.card-inactive {
+  transform: scale(0);
+  opacity: 0;
+  display: none;
 }
 div.container div.card {
   width: 80%;

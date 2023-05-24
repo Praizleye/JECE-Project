@@ -18,8 +18,13 @@ function App() {
   // this is what checks the input for the value that is being typed
   const [inputValue, setInputValue] = useState("");
 
+  const [pwd, setPwd] = useState("");
+
   // Getting the refs of all the required item for validation. forget the long code in the angle brackets typescript just needed this to breathe. REFs are the most preferred way to manipulate the dom in react since react uses the virtual DOM.
   const inputBoxRef = useRef<Array<HTMLDivElement | null>>(
+    new Array(formArr.length).fill(null)
+  );
+  const inputSelfRef = useRef<Array<HTMLDivElement | null>>(
     new Array(formArr.length).fill(null)
   );
   const iconRef = useRef<Array<HTMLDivElement | null>>(
@@ -30,6 +35,7 @@ function App() {
   const lineGrowRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const cardRef = useRef<HTMLDivElement | null>(null);
+  const loginRef = useRef<HTMLDivElement | null>(null);
 
   // the useEffect ensures that my code is rerun eact time currVal is changed
   useEffect(() => {
@@ -51,6 +57,17 @@ function App() {
     setNameHelperText(nameHelperText);
   };
 
+  const entryValidator = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (pwd === "123456") {
+      if (cardRef.current && loginRef.current) {
+        loginRef.current.classList.add("login-inactive");
+        cardRef.current.classList.remove("card-inactive");
+      }
+    }
+  };
+
   // This is where the validation happens, test the input by supplying text less than 2 or a number where a text is required.
   const validateForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -61,7 +78,7 @@ function App() {
 
     // console.log(inputTag);
     // console.log(currVal);
-    if (inputTag.id === `name-id-${currVal}`) {
+    if (inputSelfRef.current[0]) {
       // const inputValue = e.target.value;
 
       if (/[\d!@#$%^&*(),.?":{}|<>]/.test(inputValue)) {
@@ -81,16 +98,19 @@ function App() {
         setDisabled(false);
       }
     }
-    if (inputTag.id === `city-id-${currVal}`) {
-      // setInputValue(e.target.value);
-      // setDisabled(true);
-      inputValue?.length < 2
-        ? (setNameHelperText("city doesnt exist"),
-          (inputTag.style.border = "1px solid red"),
-          (helperText.style.color = "red"),
-          setDisabled(true))
-        : (setDisabled(false),
-          setNameHelperText("Please fill in the details below"));
+
+    if (inputSelfRef.current[1]) {
+      if (inputValue.length < 2) {
+        setNameHelperText("City Not found");
+        inputTag.style.border = "1px solid red";
+        helperText.style.color = "red";
+        setDisabled(true);
+      } else {
+        setNameHelperText("Please fill in the details below");
+        inputTag.style.border = "";
+        helperText.style.color = "";
+        setDisabled(false);
+      }
     }
   };
 
@@ -98,7 +118,20 @@ function App() {
 
   return (
     <div className="container">
-      <div className="card" ref={cardRef}>
+      <div className="login" ref={loginRef}>
+        <div>Enter Your Password Here</div>
+        <input
+          type="text"
+          name="password"
+          id="password"
+          value={pwd}
+          onChange={(e) => setPwd(e.target.value)}
+        />
+        <button type="button" onClick={entryValidator}>
+          Enter
+        </button>
+      </div>
+      <div className="card card-inactive" ref={cardRef}>
         <div className="formHeading">
           <h3>My Skill Level</h3>
           <span>Answer the following questions to begin your plan</span>
@@ -196,12 +229,14 @@ function App() {
                         id={`${el.inputId}-${index}`}
                         onChange={validateForm}
                         value={inputValue}
+                        ref={(item) => (inputSelfRef.current[index] = item)}
                       />
                       <span> {el.labelText}</span>
                     </div>
                   </div>
                 ))}
                 <button
+                  type="button"
                   className="nextBtn"
                   onClick={nextStepClicked}
                   disabled={disabled}
