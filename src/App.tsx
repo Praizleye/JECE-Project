@@ -77,7 +77,7 @@ function App() {
     const helperText = document.getElementById("helperText") as HTMLDivElement;
 
     // console.log(inputTag);
-    // console.log(currVal);
+    console.log(inputBoxRef.current[0]);
     if (inputSelfRef.current[0]) {
       // const inputValue = e.target.value;
 
@@ -99,19 +99,19 @@ function App() {
       }
     }
 
-    if (inputSelfRef.current[1]) {
-      if (inputValue.length < 2) {
-        setNameHelperText("City Not found");
-        inputTag.style.border = "1px solid red";
-        helperText.style.color = "red";
-        setDisabled(true);
-      } else {
-        setNameHelperText("Please fill in the details below");
-        inputTag.style.border = "";
-        helperText.style.color = "";
-        setDisabled(false);
-      }
-    }
+    // if (inputSelfRef.current[1]) {
+    //   if (inputValue.length < 2) {
+    //     setNameHelperText("City Not found");
+    //     inputTag.style.border = "1px solid red";
+    //     helperText.style.color = "red";
+    //     setDisabled(true);
+    //   } else {
+    //     setNameHelperText("Please fill in the details below");
+    //     inputTag.style.border = "";
+    //     helperText.style.color = "";
+    //     setDisabled(false);
+    //   }
+    // }
   };
 
   console.log(inputValue);
@@ -226,7 +226,7 @@ function App() {
                       <input
                         type={el.inputType}
                         name={el.inputName}
-                        id={`${el.inputId}-${index}`}
+                        id={`${el.inputId}`}
                         onChange={validateForm}
                         value={inputValue}
                         ref={(item) => (inputSelfRef.current[index] = item)}
