@@ -30,13 +30,9 @@ function App() {
   const lineGrowRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const cardRef = useRef<HTMLDivElement | null>(null);
-  const loginRef = useRef<HTMLDivElement | null>(null);
 
   // the useEffect ensures that my code is rerun eact time currVal is changed
   useEffect(() => {
-    // console.log(iconRef);
-    // console.log(inputBoxRef.current);
-
     inputBoxRef.current[currVal]?.classList.remove("inactive");
     iconRef.current[currVal]?.classList.add("active");
     dotRefs.current[currVal]?.classList.add("active-dot");
@@ -57,6 +53,7 @@ function App() {
 
   // This is where the validation happens, test the input by supplying text less than 2 or a number where a text is required.
   const validateForm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     setInputValue(e.target.value);
 
     const inputTag = document.getElementsByTagName("input")[currVal];
@@ -65,7 +62,7 @@ function App() {
     // console.log(inputTag);
     // console.log(currVal);
     if (inputTag.id === `name-id-${currVal}`) {
-      const inputValue = e.target.value;
+      // const inputValue = e.target.value;
 
       if (/[\d!@#$%^&*(),.?":{}|<>]/.test(inputValue)) {
         setNameHelperText("Name should only contain letters");
@@ -83,10 +80,10 @@ function App() {
         helperText.style.color = "";
         setDisabled(false);
       }
-    } else if (inputTag.id === `city-id-${currVal}`) {
-      setInputValue(e.target.value);
-
-      setDisabled(true);
+    }
+    if (inputTag.id === `city-id-${currVal}`) {
+      // setInputValue(e.target.value);
+      // setDisabled(true);
       inputValue?.length < 2
         ? (setNameHelperText("city doesnt exist"),
           (inputTag.style.border = "1px solid red"),
@@ -97,32 +94,11 @@ function App() {
     }
   };
 
-  const [pwd, setPwd] = useState("");
-
-  const entryValidator = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (pwd === "123456") {
-      if (cardRef.current && loginRef.current) {
-        cardRef.current.classList.remove("card-inactive");
-        loginRef.current.classList.add("login-inactive");
-      }
-    }
-  };
+  console.log(inputValue);
 
   return (
     <div className="container">
-      <div className="login" ref={loginRef}>
-        <div>Enter Your Password Here</div>
-        <input
-          type="text"
-          name="password"
-          id="password"
-          value={pwd}
-          onChange={(e) => setPwd(e.target.value)}
-        />
-        <button onClick={entryValidator}>Submit</button>
-      </div>
-      <div className="card card-inactive" ref={cardRef}>
+      <div className="card" ref={cardRef}>
         <div className="formHeading">
           <h3>My Skill Level</h3>
           <span>Answer the following questions to begin your plan</span>
@@ -204,7 +180,7 @@ function App() {
               <div id="helperText">{nameHelperText}</div>
             </div>
             {currVal < formArr.length ? (
-              <form action="#">
+              <div className="formBody">
                 {formArr.map((el, index) => (
                   <div
                     key={el.id}
@@ -225,10 +201,14 @@ function App() {
                     </div>
                   </div>
                 ))}
-                <button onClick={nextStepClicked} disabled={disabled}>
+                <button
+                  className="nextBtn"
+                  onClick={nextStepClicked}
+                  disabled={disabled}
+                >
                   Next Step
                 </button>
-              </form>
+              </div>
             ) : (
               <h1 className="successful"> It PAYS $$$ to Serve Jesus</h1>
             )}
