@@ -18,6 +18,9 @@ div.container {
   min-height: 100vh;
   @include flexbox(center, center, column);
 
+
+  
+
   div.card {
     width: 80%;
     height: auto;
@@ -35,6 +38,7 @@ div.container {
   }
 
 }
+
 
 
 div.contentBody {
@@ -300,5 +304,5 @@ h1.successful{
   align-items: center;
   justify-self: center;
   align-self: center;
-  color: red;
+  color: rgb(238, 72, 72);
 }

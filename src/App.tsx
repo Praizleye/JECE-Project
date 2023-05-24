@@ -49,31 +49,47 @@ function App() {
     }
     setInputValue("");
     setNameHelperText(nameHelperText);
-    // validateForm();
   };
 
   // This is where the validation happens, test the input by supplying text less than 2 or a number where a text is required.
-  const validateForm = () => {
+  const validateForm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+
     const inputTag = document.getElementsByTagName("input")[currVal];
     const helperText = document.getElementById("helperText") as HTMLDivElement;
 
-    console.log(inputTag);
-
+    // console.log(inputTag);
+    // console.log(currVal);
     if (inputTag.id === `name-id-${currVal}`) {
-      inputValue?.length < 2
-        ? (setNameHelperText("Name is Too Short "),
-          (inputTag.style.border = "1px solid red"),
-          (helperText.style.color = "red"))
-        : (setDisabled(false), setNameHelperText(nameHelperText));
-    }
+      const inputValue = e.target.value;
 
-    if (inputTag.id === `city-id-${currVal}`) {
+      if (/[\d!@#$%^&*(),.?":{}|<>]/.test(inputValue)) {
+        setNameHelperText("Name should only contain letters");
+        inputTag.style.border = "1px solid red";
+        helperText.style.color = "red";
+        setDisabled(true);
+      } else if (inputValue.length < 2) {
+        setNameHelperText("Name is Too Short");
+        inputTag.style.border = "1px solid red";
+        helperText.style.color = "red";
+        setDisabled(true);
+      } else {
+        setNameHelperText("Please fill in the details below");
+        inputTag.style.border = "";
+        helperText.style.color = "";
+        setDisabled(false);
+      }
+    } else if (inputTag.id === `city-id-${currVal}`) {
+      setInputValue(e.target.value);
+
+      setDisabled(true);
       inputValue?.length < 2
         ? (setNameHelperText("city doesnt exist"),
           (inputTag.style.border = "1px solid red"),
           (helperText.style.color = "red"),
           setDisabled(true))
-        : (setDisabled(false), setNameHelperText(nameHelperText));
+        : (setDisabled(false),
+          setNameHelperText("Please fill in the details below"));
     }
   };
 
@@ -175,13 +191,8 @@ function App() {
                         type={el.inputType}
                         name={el.inputName}
                         id={`${el.inputId}-${index}`}
-                        onChange={(event) => {
-                          setInputValue(event.target.value);
-                        }}
-                        onFocus={validateForm}
-                        onBlur={validateForm}
+                        onChange={validateForm}
                         value={inputValue}
-                        autoComplete="off"
                       />
                       <span> {el.labelText}</span>
                     </div>
